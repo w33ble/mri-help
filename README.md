@@ -11,33 +11,63 @@ Help text generator for mri.
 
 ```js
 const mri = require('mri');
-const mriHelper = require('mri-helper');
+const help = require('mri-help');
 
-// set mri up with given options
-const mriOptions = { ... };
-const args = mri(process.argv.slice(2), mriOptions);
+// use mri like normal, but wrap options in mri-help and (optionally) add an help parameter
+const mriOptions = { 
+  // ... must include at least one alias, see caveats below
+  // ... optional, recommended if you plan to recover, see caveats below
+  help: {
+    '@command': 'your-awesome-command', // optional, sets the command shown in the usage output
+    '@signature': '[options] <file>', // optional, customize the command's signature ("[options]" by default)
+    '<flag>': 'Description', // optional, but recommended, description to use for a given flag (long form version)
+  }
+};
 
-// if user passed --help, display help
-if (args.help) {
-  console.log(mriHelper(mriOptions, {
-    command: 'your-cli-command',
-    options: {
-      // description for your mri options
-    }
-  }));
-  reutrn;
-}
+const args = mri(process.argv.slice(2), help(mriOptions)); // get mri output
+```
+
+Now when the user provides the `--help` flag, help output is shown:
+
+```
+$ your-awesome-command --help
+
+Usage: your-awesome-command [options] <file>
+
+  --<arg>  Description
+  --help   Display this help message
+
 ```
 
 ## API
 
-#### mriHelper(mriOptions, helpOptions)
+### mriHelper(mriOptions)
 
-`mriOption` is the options object you passed to mri to help it parse argument input.
+`mriOption` is the [options object normally passed to mri](https://github.com/lukeed/mri#api). Additional `help` configuration can be added to enhance the help output.
 
-`helpOptions` is an object you provide to the help text generator to allow it to produce helpful output. The `command` property is used to show your cli comman, and any `options` act as descriptions for the mri options you are parsing.
+Returns the `mriOptions`, with `unknown` appended to handle capturing of the `--help` flag.
 
-Return help output text.
+#### mriOptions.help.@command
+
+Used to override the command shown on the `Usage:` line. Defaults to `process.argv[1]` with the current path removed.
+
+#### mriOptions.help.@signature
+
+Used to override the function signature on the `Usage:` line. By default, if only shows `[options]`. It is useful to add other parameters based on your use, such as `<file>`.
+
+#### mriOptions.help.*arg*
+
+Used to provide a description for any of your arguments. The key is the long-form version of the argument (anything used in `boolean`, `string`, of `default`), and the value is the description used in the output. By default, no description text is shown.
+
+## Caveats
+
+`mri-help` uses the `unknown` mri option to listen for the `--help` flag and output the help body when it's seen. It will preserve your own `unknown` handler, with the exception of `--help`
+
+As a result of using the unknown argument, there are some gotchas:
+
+1. mri only checks for unknown flags if options.unknown **and** options.alias are defined. Therefore, you must include at least one `alias` in the mri options.
+1. You must define *all* of the arguments you handle in the mri configuration object, otherwise the parser will stop. If you do not provide your own unknown handler, it will tell the user to use the `--help` flag and exit with status code 1.
+1. When the `--help` flag, or any unknown flag, is found, execution will stop. If the flag is unknown, it will exit with status code 1 by default.
 
 #### License
 
