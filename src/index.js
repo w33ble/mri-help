@@ -86,17 +86,15 @@ function generateOutput(parsed, help) {
     descriptions.push(getDescription(cannedOptions[opt].desc));
   }
 
+  // build the output header
+  const sig = help['@signature'] ? help['@signature'] : '[options]';
+  lines = lines + 'Usage: ' + command + ' ' + sig + '\n\n';
+
   // append the help options
   addLine('help');
   descriptions.push('Display this help message');
 
-  // build the output header
-  lines = lines + 'Usage: ' + command + ' ';
-  if (options.length) {
-    const sig = help['@signature'] ? help['@signature'] : '[options]';
-    lines = lines + sig + '\n\n';
-  }
-
+  // append all the options
   lines =
     lines +
     options
