@@ -22,6 +22,9 @@
   ],
   "author": "Joe Fleming (https://github.com/w33ble)",
   "license": "MIT",
+  "engines": {
+    "node": ">=4.9.1"
+  },
   "bugs": {
     "url": "https://github.com/w33ble/mri-help/issues"
   },
