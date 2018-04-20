@@ -6,7 +6,7 @@ function toArr(any) {
 
 function addArgs(args) {
   const out = {};
-  toArr(args).forEach(function(arg) {
+  toArr(args).forEach(arg => {
     out[arg] = {};
   });
   return out;
@@ -127,7 +127,7 @@ module.exports = function parser(opts) {
 
   // add an unknown opt, to handle the help flag
   const oldUnknown = opts.unknown;
-  const unknownFn = function(arg) {
+  const unknownFn = arg => {
     if (arg === '--help') {
       // eslint-disable-next-line no-console
       console.log(generateOutput(parsed, opts.help));
