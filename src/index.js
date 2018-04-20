@@ -21,8 +21,8 @@ function padLine(line, len) {
 
 function generateOutput(parsed, help) {
   help = help || {};
+  const command = help['@command'] || process.argv[1].replace(process.cwd() + '/', '');
   const descBuffer = 2;
-  const command = process.argv[1].replace(process.cwd() + '/', '');
   let lines = '';
   let options = [];
   let descriptions = [];
@@ -37,10 +37,11 @@ function generateOutput(parsed, help) {
   function addLine(opt) {
     let str = '--' + opt;
 
-    parsed[opt] && toArr(parsed[opt].aliases).forEach(alias => {
-      if (alias.length > 1) str = str + ', --' + alias;
-      else str = str + ', -' + alias;
-    });
+    parsed[opt] &&
+      toArr(parsed[opt].aliases).forEach(alias => {
+        if (alias.length > 1) str = str + ', --' + alias;
+        else str = str + ', -' + alias;
+      });
 
     options.push(str);
     maxLength = Math.max(str.length, maxLength);
@@ -105,13 +106,8 @@ function generateOutput(parsed, help) {
   return lines;
 }
 
-module.exports = function parser(opts, ignoreUnknown) {
+module.exports = function parser(opts) {
   opts = opts || {};
-  ignoreUnknown = ignoreUnknown || false;
-
-  if (!ignoreUnknown && opts.unknown) {
-    throw new Error('Can not parse unknown parameters');
-  }
 
   // unknown, string, boolean, default, alias
   const parsed = Object.assign({}, addArgs(opts.string), addArgs(opts.boolean));
@@ -130,5 +126,18 @@ module.exports = function parser(opts, ignoreUnknown) {
     }
   }
 
-  return generateOutput(parsed, opts.help);
+  // add an unknown opt, to handle the help flag
+  const oldUnknown = opts.unknown;
+  const unknownFn = function(arg) {
+    if (arg === '--help') {
+      // eslint-disable-next-line no-console
+      console.log(generateOutput(parsed, opts.help));
+      return;
+    }
+
+    if (oldUnknown) oldUnknown(arg);
+  };
+  opts.unknown = unknownFn;
+
+  return opts;
 };
