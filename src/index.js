@@ -23,7 +23,7 @@ function generateOutput(parsed, help) {
   help = help || {};
   const command = help['@command'] || process.argv[1].replace(process.cwd() + '/', '');
   const descBuffer = 2;
-  let lines = '';
+  let lines = '\n';
   let options = [];
   let descriptions = [];
   let maxLength = 0;
@@ -101,7 +101,8 @@ function generateOutput(parsed, help) {
     lines +
     options
       .map((o, i) => padLine('  ' + o, maxLength + 2 + descBuffer) + descriptions[i])
-      .join('\n');
+      .join('\n') +
+    '\n';
 
   return lines;
 }
