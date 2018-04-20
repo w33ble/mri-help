@@ -133,7 +133,8 @@ module.exports = function parser(opts) {
     if (arg === '--help') {
       // eslint-disable-next-line no-console
       console.log(generateOutput(parsed, opts.help));
-      process.exit();
+      process.exit(0);
+      return;
     }
 
     if (oldUnknown) {
@@ -142,6 +143,7 @@ module.exports = function parser(opts) {
       // eslint-disable-next-line no-console
       console.log('Unknown flag "' + arg + '". Use "--help" to see valid flags.');
       process.exit(1);
+      return;
     }
   };
   opts.unknown = unknownFn;

@@ -7,7 +7,7 @@
     "lint": "eslint \"*.{js,mjs}\" \"src/**/*.{js,mjs}\"",
     "precommit": "lint-staged",
     "version": "auto-changelog -p && auto-authors && git add CHANGELOG.md AUTHORS.md",
-    "test": "npm run lint",
+    "test": "npm run lint && tape test/index.js",
     "start": "node ."
   },
   "repository": {
@@ -51,6 +51,8 @@
     "eslint-plugin-prettier": "^2.3.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.4",
-    "prettier": "^1.9.0"
+    "mri": "^1.1.0",
+    "prettier": "^1.9.0",
+    "tape": "^4.9.0"
   }
 }
