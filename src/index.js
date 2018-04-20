@@ -28,10 +28,6 @@ function generateOutput(parsed, help) {
   let descriptions = [];
   let maxLength = 0;
   let cannedOptions = {
-    help: {
-      enabled: false,
-      desc: 'Display this help message',
-    },
     version: {
       enabled: false,
       desc: 'Display the version',
@@ -41,7 +37,7 @@ function generateOutput(parsed, help) {
   function addLine(opt) {
     let str = '--' + opt;
 
-    toArr(parsed[opt].aliases).forEach(alias => {
+    parsed[opt] && toArr(parsed[opt].aliases).forEach(alias => {
       if (alias.length > 1) str = str + ', --' + alias;
       else str = str + ', -' + alias;
     });
@@ -89,8 +85,11 @@ function generateOutput(parsed, help) {
     descriptions.push(getDescription(cannedOptions[opt].desc));
   }
 
-  // build the output header
+  // append the help options
+  addLine('help');
+  descriptions.push('Display this help message');
 
+  // build the output header
   lines = lines + 'Usage: ' + command + ' ';
   if (options.length) {
     const sig = help['@signature'] ? help['@signature'] : '[options]';
