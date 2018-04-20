@@ -19,8 +19,10 @@ function padLine(line, len) {
   return line;
 }
 
-function generateOutput(parsed, conf) {
+function generateOutput(parsed, help) {
+  help = help || {};
   const descBuffer = 2;
+  const command = process.argv[1].replace(process.cwd() + '/', '');
   let lines = '';
   let options = [];
   let descriptions = [];
@@ -69,13 +71,15 @@ function generateOutput(parsed, conf) {
     // handle canned options
     if (cannedOptions[opt]) {
       cannedOptions[opt].enabled = true;
-      if (conf.options[opt]) cannedOptions[opt].desc = conf.options[opt];
+      if (help[opt]) {
+        cannedOptions[opt].desc = help[opt];
+      }
       continue;
     }
 
     // handle normal options
     addLine(opt);
-    descriptions.push(getDescription(conf.options[opt], parsed[opt].default));
+    descriptions.push(getDescription(help[opt], parsed[opt].default));
   }
 
   // append the canned options, if they are enabled
@@ -86,9 +90,11 @@ function generateOutput(parsed, conf) {
   }
 
   // build the output header
-  if (conf.command.length) {
-    lines = lines + 'Usage: ' + conf.command;
-    if (options.length) lines = lines + ' [options]\n\n';
+
+  lines = lines + 'Usage: ' + command + ' ';
+  if (options.length) {
+    const sig = help['@signature'] ? help['@signature'] : '[options]';
+    lines = lines + sig + '\n\n';
   }
 
   lines =
@@ -100,9 +106,8 @@ function generateOutput(parsed, conf) {
   return lines;
 }
 
-module.exports = function parser(opts, conf, ignoreUnknown) {
+module.exports = function parser(opts, ignoreUnknown) {
   opts = opts || {};
-  conf = conf || {};
   ignoreUnknown = ignoreUnknown || false;
 
   if (!ignoreUnknown && opts.unknown) {
@@ -126,5 +131,5 @@ module.exports = function parser(opts, conf, ignoreUnknown) {
     }
   }
 
-  return generateOutput(parsed, conf);
+  return generateOutput(parsed, opts.help);
 };
