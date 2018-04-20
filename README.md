@@ -15,8 +15,7 @@ const help = require('mri-help');
 
 // use mri like normal, but wrap options in mri-help and (optionally) add an help parameter
 const mriOptions = { 
-  // ... must include at least one alias, see caveats below
-  // ... optional, recommended if you plan to recover, see caveats below
+  // ... define your mri options here, but see caveats below
   help: {
     '@command': 'your-awesome-command', // optional, sets the command shown in the usage output
     '@signature': '[options] <file>', // optional, customize the command's signature ("[options]" by default)
@@ -65,9 +64,8 @@ Used to provide a description for any of your arguments. The key is the long-for
 
 As a result of using the unknown argument, there are some gotchas:
 
-1. mri only checks for unknown flags if options.unknown **and** options.alias are defined. Therefore, you must include at least one `alias` in the mri options.
 1. You must define *all* of the arguments you handle in the mri configuration object, otherwise the parser will stop. If you do not provide your own unknown handler, it will tell the user to use the `--help` flag and exit with status code 1.
-1. When the `--help` flag, or any unknown flag, is found, execution will stop. If the flag is unknown, it will exit with status code 1 by default.
+1. Code execution will stop When the `--help` flag or any unknown flag is found. You can provide your own unknown handler to stop it from exiting on unknown flags, but the mri parser will return undefined.
 
 #### License
 
