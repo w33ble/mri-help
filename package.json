@@ -4,7 +4,7 @@
   "description": "Help text generator for mri",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint \"*.{js,mjs}\" \"src/**/*.{js,mjs}\"", 
+    "lint": "eslint \"*.{js,mjs}\" \"src/**/*.{js,mjs}\"",
     "precommit": "lint-staged",
     "version": "auto-changelog -p && auto-authors && git add CHANGELOG.md AUTHORS.md",
     "start": "node ."
@@ -30,7 +30,7 @@
     "template": ".changelog_template.hbs",
     "ignoreCommitPattern": "(chore|test):",
     "commitLimit": false
-  }, 
+  },
   "lint-staged": {
     "*.{js,mjs}": ["eslint --fix"],
     "*.{js,mjs,json,css}": ["prettier --write"]
