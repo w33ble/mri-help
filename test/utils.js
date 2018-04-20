@@ -4,8 +4,8 @@ const utils = {};
 
 utils.parseOption = function parseOption(str) {
   const parts = str.trim().split('  ');
-  if (parts < 2) throw new Error('Line is not an option: ' + str);
-  const desc = parts.pop();
+  if (parts.length < 1 || !/^--/.test(parts[0])) throw new Error('Line is not an option: ' + str);
+  const desc = parts.length >= 2 ? parts.pop().trim() : '';
   return { options: parts[0].split(', '), description: desc };
 };
 
