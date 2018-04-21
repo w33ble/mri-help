@@ -52,3 +52,17 @@ test('shows usage with custom signature', t => {
   t.equal(usageParts[1], cmd, 'uses custom command');
   t.equal(usageSig, sig, 'uses custom signature');
 });
+
+test('shows description under useage info', t => {
+  t.plan(1);
+  const desc = 'some custom description\n\neven with line breaks';
+  const opts = { help: { '@description': desc } };
+
+  const getOutput = utils.captureOutput();
+  mri(['--help'], help(opts));
+  const out = getOutput();
+
+  const outDesc = out.output.split('\n').slice(3).slice(0, 3).join('');
+
+  t.equal(outDesc, desc.replace('\n\n', ''), 'includes the description');
+});

@@ -19,6 +19,7 @@ const mriOptions = {
   help: {
     '@command': 'your-awesome-command', // optional, sets the command shown in the usage output
     '@signature': '[options] <file>', // optional, customize the command's signature ("[options]" by default)
+    '@description': 'file:  file to use', // optional
     '<flag>': 'Description', // optional, but recommended, description to use for a given flag (long form version)
   }
 };
@@ -53,6 +54,10 @@ Used to override the command shown on the `Usage:` line. Defaults to `process.ar
 #### mriOptions.help.@signature
 
 Used to override the function signature on the `Usage:` line. By default, if only shows `[options]`. It is useful to add other parameters based on your use, such as `<file>`.
+
+#### mriOptions.help.@signature
+
+Used to show custom description text under the usage line. This is especially useful if you are using _ args, and would like to describe how they are used.
 
 #### mriOptions.help.*arg*
 

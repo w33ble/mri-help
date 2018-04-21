@@ -98,6 +98,10 @@ function generateOutput(parsed, help) {
   const sig = help['@signature'] ? help['@signature'] : '[options]';
   lines = lines + 'Usage: ' + command + ' ' + sig + '\n\n';
 
+  if (help['@description']) {
+    lines = lines + help['@description'] + '\n\n';
+  }
+
   // append the help options
   addLine('help');
   descriptions.push('Display this help message');
