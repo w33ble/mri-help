@@ -58,6 +58,10 @@ Used to override the function signature on the `Usage:` line. By default, if onl
 
 Used to provide a description for any of your arguments. The key is the long-form version of the argument (anything used in `boolean`, `string`, of `default`), and the value is the description used in the output. By default, no description text is shown.
 
+#### mriOptions.help.*!arg*
+
+Used to prefix flags in help with `no-`. For example, if you have a `check` option, and use `{ help: { '!check': 'Disable the check' }`, the help output will be `--no-check  Disable the check`. This is most useful when the default value is `true`.
+
 ## Caveats
 
 `mri-help` uses the `unknown` mri option to listen for the `--help` flag and output the help body when it's seen. It will preserve your own `unknown` handler, with the exception of `--help`

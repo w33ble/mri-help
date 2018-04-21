@@ -84,3 +84,25 @@ test('includes default values', t => {
   t.ok(/\(default: derp\)$/.test(one.description), 'shows default in description');
   t.ok(/\(default: herpderp\)$/.test(two.description), 'shows default in description');
 });
+
+test('works with inverse flags', t => {
+  t.plan(4);
+  const opts = {
+    boolean: ['check', 'watch'],
+    help: {
+      '!check': 'Disable the check',
+      watch: 'Enable the watch',
+    },
+  };
+
+  const getOutput = utils.captureOutput();
+  mri(['--help'], help(opts));
+  const out = getOutput();
+
+  const check = utils.parseOption(out.output.split('\n')[3]);
+  const watch = utils.parseOption(out.output.split('\n')[4]);
+  t.deepEqual(check.options, ['--no-check'], 'includes --no-check flag');
+  t.deepEqual(check.description, opts.help['!check'], 'includes check description');
+  t.deepEqual(watch.options, ['--watch'], 'includes --watch flag');
+  t.deepEqual(watch.description, opts.help['watch'], 'includes check description');
+});

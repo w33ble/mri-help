@@ -35,7 +35,15 @@ function generateOutput(parsed, help) {
   };
 
   function addLine(opt) {
-    let str = '--' + opt;
+    let str = '--';
+
+    if (help['!' + opt]) {
+      // handle no prefixed flags
+      str = str + 'no-' + opt;
+      help[opt] = help['!' + opt];
+    } else {
+      str = str + opt;
+    }
 
     parsed[opt] &&
       toArr(parsed[opt].aliases).forEach(alias => {
