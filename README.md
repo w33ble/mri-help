@@ -14,7 +14,7 @@ const mri = require('mri');
 const help = require('mri-help');
 
 // use mri like normal, but wrap options in mri-help and (optionally) add an help parameter
-const mriOptions = { 
+const mriOptions = help({
   // ... define your mri options here, but see caveats below
   help: {
     '@command': 'your-awesome-command', // optional, sets the command shown in the usage output
@@ -22,9 +22,9 @@ const mriOptions = {
     '@description': 'file:  file to use', // optional
     '<flag>': 'Description', // optional, but recommended, description to use for a given flag (long form version)
   }
-};
+});
 
-const args = mri(process.argv.slice(2), help(mriOptions)); // get mri output
+const args = mri(process.argv.slice(2), mriOptions); // get mri output
 ```
 
 Now when the user provides the `--help` flag, help output is shown:
@@ -45,7 +45,10 @@ Usage: your-awesome-command [options] <file>
 
 `mriOption` is the [options object normally passed to mri](https://github.com/lukeed/mri#api). Additional `help` configuration can be added to enhance the help output.
 
-Returns the `mriOptions`, with `unknown` appended to handle capturing of the `--help` flag.
+Returns the `mriOptions`, with a couple of additional properties:
+
+- `unknown` appended to handle capturing of the `--help` flag.
+- `showHelp` appended to display help text and exit. Useful for when args parse correctly but don't meet your requirements.
 
 #### mriOptions.help.@command
 

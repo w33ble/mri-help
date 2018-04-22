@@ -62,7 +62,11 @@ test('shows description under useage info', t => {
   mri(['--help'], help(opts));
   const out = getOutput();
 
-  const outDesc = out.output.split('\n').slice(3).slice(0, 3).join('');
+  const outDesc = out.output
+    .split('\n')
+    .slice(3)
+    .slice(0, 3)
+    .join('');
 
   t.equal(outDesc, desc.replace('\n\n', ''), 'includes the description');
 });

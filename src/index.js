@@ -137,13 +137,19 @@ module.exports = function parser(opts) {
     }
   }
 
+  // function to show the help and exit
+  function showHelp() {
+    // eslint-disable-next-line no-console
+    console.log(generateOutput(parsed, opts.help));
+    process.exit(0);
+  }
+  opts.showHelp = showHelp; // append to returned opts
+
   // add an unknown opt, to handle the help flag
   const oldUnknown = opts.unknown;
-  const unknownFn = arg => {
+  opts.unknown = arg => {
     if (arg === '--help') {
-      // eslint-disable-next-line no-console
-      console.log(generateOutput(parsed, opts.help));
-      process.exit(0);
+      showHelp();
       return;
     }
 
@@ -156,7 +162,6 @@ module.exports = function parser(opts) {
       return;
     }
   };
-  opts.unknown = unknownFn;
 
   return opts;
 };
