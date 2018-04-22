@@ -1,6 +1,11 @@
 ### Changelog
 
-#### 0.1.0 (20 April 2018)
+#### [v0.2.0](https://github.com/w33ble/mri-help/compare/v0.1.0...v0.2.0) (22 April 2018)
+- feat: expose help text output function [`#2`](https://github.com/w33ble/mri-help/issues/2)
+- feat: allow prefixed help for &#x27;no-&#x27; flags [`#1`](https://github.com/w33ble/mri-help/issues/1)
+- feat: add @description handling [`be3a1fd`](https://github.com/w33ble/mri-help/commit/be3a1fd4a2fe00d327c57254a4435fe1068b7f26)
+
+#### v0.1.0 (20 April 2018)
 - docs: update readme [`be290e0`](https://github.com/w33ble/mri-help/commit/be290e0a065798c4464437bc68f0a6d46611e8be)
 - docs: update readme with new usage info [`9393e57`](https://github.com/w33ble/mri-help/commit/9393e57e8c557c04d75b6d94370d21863076a503)
 - fix: exit on help, fail on unknown flag by default [`384e982`](https://github.com/w33ble/mri-help/commit/384e98264f3dc0599c203349e08b633a19d8eaa1)

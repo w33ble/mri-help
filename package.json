@@ -1,6 +1,6 @@
 {
   "name": "mri-help",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Help text generator for mri",
   "main": "index.js",
   "scripts": {
