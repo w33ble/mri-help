@@ -46,12 +46,17 @@
     "commitLimit": false
   },
   "lint-staged": {
-    "*.{js,mjs}": [
-      "eslint --fix"
+    "ignore": [
+      "package.json"
     ],
-    "*.{js,mjs,json,css}": [
-      "prettier --write"
-    ]
+    "linters": {
+      "*.{js,mjs}": [
+        "eslint --fix"
+      ],
+      "*.{js,mjs,json,css}": [
+        "prettier --write"
+      ]
+    }
   },
   "prettier": {
     "printWidth": 100,
